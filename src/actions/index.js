@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-
+import { Actions } from 'react-native-router-flux';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
@@ -44,8 +44,10 @@ const onLoginSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   }
-  console.log('onLoginSuccess',returnObj);
   dispatch(returnObj);
+
+  Actions.main();
+
 }
 
 const onLoginFailed = (dispatch) => {
