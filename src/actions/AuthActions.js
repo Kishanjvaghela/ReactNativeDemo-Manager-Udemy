@@ -39,15 +39,12 @@ export const loginUser = ({ email, password }) => {
 };
 
 const onLoginSuccess = (dispatch, user) => {
-
   const returnObj = {
     type: LOGIN_USER_SUCCESS,
     payload: user
   }
   dispatch(returnObj);
-
   Actions.main();
-
 }
 
 const onLoginFailed = (dispatch) => {
