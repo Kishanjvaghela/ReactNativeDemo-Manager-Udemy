@@ -47,7 +47,5 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
         dispatch({ type: EMPLOYEE_SAVE_SUCCESS });
         Actions.employeeList( { type: 'reset'});
       });
-
   }
-
 };
