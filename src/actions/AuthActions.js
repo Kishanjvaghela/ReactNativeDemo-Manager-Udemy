@@ -6,6 +6,7 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED
 } from './types';
+import { showProgress, hideProgress } from './ProgressAction';
 
 export const emailChange = (text) => {
   return {
@@ -24,6 +25,7 @@ export const passwordChanged = (text) => {
 export const loginUser = ({ email, password }) => {
   console.log('login user action called');
   return (dispatch) => {
+    dispatch(showProgress());
     firebase.auth().signInWithEmailAndPassword(email,password)
       .then(user => {
         console.log('signInWithEmailAndPassword then');
@@ -44,6 +46,7 @@ export const loginUser = ({ email, password }) => {
 };
 
 const onLoginSuccess = (dispatch, user) => {
+  dispatch(hideProgress());
   const returnObj = {
     type: LOGIN_USER_SUCCESS,
     payload: user
@@ -53,6 +56,7 @@ const onLoginSuccess = (dispatch, user) => {
 }
 
 const onLoginFailed = (dispatch, errorString) => {
+  dispatch(hideProgress());
     console.log('onLoginFailed');
     dispatch({
        type: LOGIN_USER_FAILED,

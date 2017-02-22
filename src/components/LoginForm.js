@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Alert} from 'react-native';
 import { connect } from 'react-redux';
 import { emailChange, passwordChanged, loginUser, showProgress, hideProgress } from '../actions';
 import { Card, CardSection, Input, Button, ProgressDialog,Confirm } from './common';
@@ -19,7 +19,7 @@ class LoginForm extends Component {
   onLoginButtonPress() {
     const { email, password } = this.props;
     console.log('onLoginButtonPress', this.props);
-    this.props.showProgress();
+    // this.props.showProgress();
     this.props.loginUser({ email, password });
   }
 
@@ -45,9 +45,11 @@ class LoginForm extends Component {
           />
         </CardSection>
 
+        {/*
         <Text style = {styles.errorTextStyle}>
-          {this.props.error}
-        </Text>
+        {this.props.error}
+         </Text>
+        */}
         <CardSection>
           <Button onPress={this.onLoginButtonPress.bind(this)}>
             Login
@@ -72,19 +74,27 @@ const styles = {
     }
 };
 
+const showAlert = (title, message) => {
+  Alert.alert(
+  'Alert Title',
+  message,
+  [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+)
+}
+
 const mapStateToProps = (state) => {
   console.log('mapStateToProps auth',state.auth);
   console.log('mapStateToProps progress',state.progressRed);
-  const { email, password , user, error, showProgress } = state.auth;
+  const { email, password , user, error } = state.auth;
   let { progress } = state.progressRed;
-  if(showProgress === undefined){
-    if(progress === undefined){
-      progress = false;
-    }
-  }else{
-    progress = showProgress;
+  if(progress === undefined){
+    progress = false;
   }
-
+  if(error) {    
+    showAlert('Login Error', error);
+  }
   return { email, password, user, error, progress };
 };
 export default connect(mapStateToProps,{
