@@ -31,9 +31,14 @@ export const loginUser = ({ email, password }) => {
       })
       .catch((error) => {
         console.log('signInWithEmailAndPassword catch',error);
-        firebase.auth().createUserWithEmailAndPassword(email,password)
-          .then(user => onLoginSuccess(dispatch,user))
-          .catch(() => onLoginFailed(dispatch));
+        if(error !== undefined && error.code === 'auth/user-not-found'){
+          console.log(' creating new user');
+          firebase.auth().createUserWithEmailAndPassword(email,password)
+            .then(user => onLoginSuccess(dispatch,user))
+            .catch((error) => onLoginFailed(dispatch,error.message));
+        }else{
+          onLoginFailed(dispatch,error.message)
+        }
       });
   };
 };
@@ -47,7 +52,10 @@ const onLoginSuccess = (dispatch, user) => {
   Actions.main();
 }
 
-const onLoginFailed = (dispatch) => {
+const onLoginFailed = (dispatch, errorString) => {
     console.log('onLoginFailed');
-    dispatch({ type: LOGIN_USER_FAILED});
+    dispatch({
+       type: LOGIN_USER_FAILED,
+       payload: errorString
+     });
 }

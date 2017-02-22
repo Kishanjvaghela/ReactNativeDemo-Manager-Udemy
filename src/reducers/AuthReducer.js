@@ -22,7 +22,7 @@ export default (state = INITIAL_STATE, actions) => {
     case LOGIN_USER_SUCCESS:
         return { ...state, user: actions.payload, error: '',showProgress:false};
     case LOGIN_USER_FAILED:
-        return { ...state, error: "Auth failed", password: '',showProgress:false};
+        return { ...state, error: actions.payload, password: '',showProgress:false};
     default:
       return state;
   }
