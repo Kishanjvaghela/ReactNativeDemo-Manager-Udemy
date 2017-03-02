@@ -27,9 +27,15 @@ class EmployeeCreate extends Component {
 }
 
 
-
+/**
+solate which parts of the overall state this component needs as its props
+**/
 const mapStateToProps = (state) => {
+  // state - entire Redux store
+  // state.employeeForm is defined in combineReducers
   const { name, phone, shift } = state.employeeForm;
+
+  //The object's properties will become "props" on the component.
   return { name, phone, shift };
 }
 
